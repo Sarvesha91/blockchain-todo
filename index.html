@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        #taskInput, #ownerInput { padding: 8px; width: 60%; margin-right: 10px; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        #taskList { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .task { padding: 10px; border: 1px solid #ddd; margin-bottom: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Blockchain To-Do List</h1>
+    <div>
+        <input type="text" id="taskInput" placeholder="Enter task...">
+        <input type="text" id="ownerInput" placeholder="Your name (owner)">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+    <div id="taskList"></div>
+    <button onclick="loadTasks()">Refresh Tasks</button>
+    <button onclick="verifyChain()">Verify Blockchain</button>
+    <p id="verificationResult"></p>
+
+    <script>
+        async function addTask() {
+            const task = document.getElementById('taskInput').value;
+            const owner = document.getElementById('ownerInput').value;
+
+            if (!task || !owner) {
+                alert("Please enter both task and owner!");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:4000/addTask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ task, owner })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("Task added to blockchain!");
+                    document.getElementById('verificationResult').textContent = ""; 
+                    loadTasks();
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (err) {
+                alert("Error adding task: " + err.message);
+            }
+        }
+
+        async function loadTasks() {
+            try {
+                const response = await fetch('http://localhost:4000/getTasks');
+                const chain = await response.json();
+
+                const taskList = document.getElementById('taskList');
+                
+
+                chain.forEach(block => {
+                    if (block.index === 0) return; // Skip genesis block
+
+                    const taskDiv = document.createElement('div');
+                    taskDiv.className = 'task';
+                    taskDiv.innerHTML = `
+                        <strong>Task #${block.index}</strong><br>
+                        <strong>Task:</strong> ${block.data.task}<br>
+                        <strong>Owner:</strong> ${block.data.owner}<br>
+                        <small>Added on: ${new Date(block.timestamp).toLocaleString()}</small>
+                    `;
+                    taskList.appendChild(taskDiv);
+                });
+            } catch (err) {
+                alert("Error loading tasks: " + err.message);
+            }
+        }
+
+        async function verifyChain() {
+            try {
+                const response = await fetch('http://localhost:4000/verify');
+                const result = await response.json();
+                document.getElementById('verificationResult').textContent =
+                    result.isValid ? "✅ Blockchain is valid!" : "❌ Blockchain is corrupted!";
+            } catch (err) {
+                alert("Error verifying chain: " + err.message);
+            }
+        }
+
+        window.onload = loadTasks;
+    </script>
+</body>
+</html>
