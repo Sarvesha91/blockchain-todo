@@ -55,27 +55,32 @@ Phase 3:
 
 <details>
 <summary>1. UI Home Page</summary>
-<p>Screenshot goes here</p>
+<p>![image](https://github.com/user-attachments/assets/9b79cb23-c2ab-43e4-89dd-138c2193193f)
+</p>
 </details>
 
 <details>
 <summary>2. After Adding a Task</summary>
-<p>Screenshot goes here</p>
+<p>![image](https://github.com/user-attachments/assets/b2b7b2e0-c284-493c-b299-b688d5d527df)
+</p>
 </details>
 
 <details>
 <summary>3. Task List Loaded</summary>
-<p>Screenshot goes here</p>
+<p>![image](https://github.com/user-attachments/assets/4dac4db3-d2aa-4426-93a4-b8e32ae97de5)
+</p>
 </details>
 
 <details>
 <summary>4. Blockchain Valid Message</summary>
-<p>Screenshot goes here</p>
+<p>![image](https://github.com/user-attachments/assets/5f42a012-1f71-4f36-9d3f-1352fea876c6)
+</p>
 </details>
 
 <details>
 <summary>5. Docker Container Running</summary>
-<p>Screenshot goes here</p>
+<p>![image](https://github.com/user-attachments/assets/d010d898-1889-4ce1-8e3f-caf581790b52)
+</p>
 </details>
 
 ---
